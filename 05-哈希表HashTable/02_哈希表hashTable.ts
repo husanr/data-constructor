@@ -13,9 +13,27 @@ class HashTable<T = any> {
     return index
   }
 
+  isPrime(num: number): boolean {
+    const sqrt = Math.sqrt(num)
+    for(let i = 2; i <= sqrt; i++) {
+      if(num % i === 0) {
+        return false
+      }
+    }
+    return true
+  }
+
+  private getNextPrime(num: number) {
+    let newPrime = num
+    while(!this.isPrime(newPrime)) {
+      newPrime++
+    }
+    return newPrime < 7 ? 7 : newPrime
+  }
+
   // 扩容或缩容
   private resize(newLength: number) {
-    this.length = newLength
+    this.length = this.getNextPrime(newLength)
 
     const newStorage = this.storage
     this.storage = []
@@ -128,4 +146,5 @@ hashTable.delete('ddd')
 hashTable.delete('nba')
 hashTable.delete('cba')
 hashTable.delete('abc')
+hashTable.delete('aaa')
 console.log(hashTable.storage);
